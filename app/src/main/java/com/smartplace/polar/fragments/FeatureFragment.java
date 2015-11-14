@@ -45,6 +45,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
@@ -56,6 +58,8 @@ public class FeatureFragment extends Fragment {
 
     private static final int SELECT_PICTURE = 0;
     private static final int REQUEST_CAMERA = 1;
+    private static final int MOVE_ABOVE = 0;
+    private static final int MOVE_BELOW = 1;
 
     private Bitmap mBitmap;
 
@@ -191,6 +195,20 @@ public class FeatureFragment extends Fragment {
 
             getSpecificationFeature();
 
+
+        }
+
+    }
+    public void changeRequirementOrder(String movedRequirementID,String referenceRequirementID,int orderType){
+
+        Requirement movedRequirement = mFeature.getRequirementByID(movedRequirementID);
+        Requirement referenceRequirement = mFeature.getRequirementByID(referenceRequirementID);
+
+        if(orderType == MOVE_ABOVE){
+
+
+
+        }else{
 
         }
 
@@ -393,4 +411,16 @@ public class FeatureFragment extends Fragment {
         return cursor.getString(column_index);
     }
 
+    public void orderRequirements(ArrayList requirements){
+
+        Collections.sort(requirements, new Comparator() {
+
+            public int compare(Object o1, Object o2) {
+                Requirement r1 = (Requirement) o1;
+                Requirement r2 = (Requirement) o2;
+                return r1.getOrder()-r2.getOrder();
+            }
+
+        });
+    }
 }

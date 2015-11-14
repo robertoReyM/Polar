@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
 
 
     @Override
-    public void onRequirementSelected(Requirement requirement) {
+    public void onRequirementSelected(final Requirement requirement) {
 
         if(mRequirementInEdition!=null){
 
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
                              **/
                             mRequirementInEdition = null;
                             //Here the order changed depending the option chosen
+                            mFeatureFragment.changeRequirementOrder(mRequirementInEdition,requirement.getId(),which);
                             return true;
                         }
                     })

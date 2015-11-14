@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
  */
 public class MemoryServices {
 
+    private static final String ARG_FILE = "APP";
     private static final String ARG_PUBLIC_KEY = "PUBLIC_KEY";
     private static final String ARG_USER_DATA = "USER_DATA";
     private static final String ARG_USER_TEAM = "USER_TEAM";
@@ -26,7 +27,7 @@ public class MemoryServices {
     }
 
     public static String getPublicKey(Context context) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("APP", Context.MODE_PRIVATE);
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         return mySharedPreferences.getString(ARG_PUBLIC_KEY, null);
     }
 
@@ -39,47 +40,47 @@ public class MemoryServices {
     }
 
     public static String getUserData(Context context) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("APP", Context.MODE_PRIVATE);
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         return mySharedPreferences.getString(ARG_USER_DATA, DEFAULT_USER_DATA);
     }
 
-    public static void setUserTeam(Context context, String seasonDay,String seasonData) {
+    public static void setUserTeam(Context context, String value) {
         SharedPreferences mySharedPreferences =
-                context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
+                context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString("SEASON_DAY_DATA_"+ seasonDay, seasonData);
+        editor.putString(ARG_USER_TEAM, value);
         editor.apply();
     }
 
-    public static String getUserTeam(Context context,String seasonDay) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
-        return mySharedPreferences.getString("SEASON_DAY_DATA_"+ seasonDay, null);
+    public static String getUserTeam(Context context) {
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
+        return mySharedPreferences.getString(ARG_USER_TEAM, null);
     }
 
 
-    public static void setRoster(Context context,String roster) {
+    public static void setTeamSpecification(Context context,String specificationID,String value) {
         SharedPreferences mySharedPreferences =
-                context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
+                context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString("ROSTER_PLAYERS", roster);
+        editor.putString(ARG_TEAM_SPEC+specificationID, value);
         editor.apply();
     }
 
-    public static String getRoster(Context context) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
-        return mySharedPreferences.getString("ROSTER_PLAYERS", null);
+    public static String getTeamSpecification(Context context, String specificationID) {
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
+        return mySharedPreferences.getString(ARG_TEAM_SPEC+specificationID, null);
     }
 
-    public static void setStanding(Context context, String standing,String standingData) {
+    public static void setSpecFeature(Context context, String featureID,String value) {
         SharedPreferences mySharedPreferences =
-                context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
+                context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString("STANDING_"+ standing, standingData);
+        editor.putString(ARG_SPEC_FEATURE+ featureID, value);
         editor.apply();
     }
 
-    public static String getStanding(Context context,String standing) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences("SEASON", Context.MODE_PRIVATE);
-        return mySharedPreferences.getString("STANDING_"+ standing, null);
+    public static String getSpecFeature(Context context,String featureID) {
+        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
+        return mySharedPreferences.getString(ARG_SPEC_FEATURE+ featureID, null);
     }
 }

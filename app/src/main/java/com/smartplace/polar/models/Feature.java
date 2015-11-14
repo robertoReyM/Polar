@@ -34,4 +34,17 @@ public class Feature {
     public void setRequirements(ArrayList<Requirement> requirements) {
         this.requirements = requirements;
     }
+
+    public Requirement getRequirementByID(String id){
+
+        for(Requirement requirement:requirements){
+
+            if(id.equals(requirement.getId())){
+
+                return requirement;
+            }
+        }
+
+        return null;
+    }
 }

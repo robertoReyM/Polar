@@ -27,7 +27,7 @@ public class WebServices {
 
             Specification specification = new Specification();
             specification.setId(String.format("%d",i+1));
-            specification.setName("File " + String.valueOf(i+1));
+            specification.setName("Specification " + String.valueOf(i+1));
             specification.setFeatures(new ArrayList<Feature>());
 
             team.getSpecifications().add(specification);
