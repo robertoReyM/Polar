@@ -1,0 +1,117 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_theme" tools:context="com.smartplace.polar.fragments.TeamFragment">
+
+    <LinearLayout
+        android:id="@+id/ll_btn_file"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingLeft="20dp"
+            android:text="Smartplace"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+
+            <Spinner
+                android:id="@+id/sp_file"
+                android:text="File 1"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:background="@null"
+                android:layout_weight="1"
+                android:spinnerMode="dropdown"
+                android:gravity="center_vertical"
+                android:layout_height="50dp"/>
+
+            <ImageView
+                android:id="@+id/iv_btn_add_file"
+                android:layout_width="30dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_add_circle_outline_white_48dp"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <ListView
+                android:id="@+id/list_features"
+                android:divider="@null"
+                android:fadingEdgeLength="10dp"
+                android:cacheColorHint="@color/gray"
+                android:requiresFadingEdge="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"/>
+        <LinearLayout
+            android:id="@+id/ll_btn_settings"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_settings"
+                android:text="Opciones"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:background="@null"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:layout_height="30dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:src="@drawable/ic_expand_less_white_48dp"
+                android:layout_height="30dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="55dp"
+        android:src="@drawable/ic_expand_more_white_48dp"
+        android:layout_height="30dp" />
+</FrameLayout>

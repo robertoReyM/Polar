@@ -1,0 +1,42 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+
+        <fragment
+            android:id="@+id/fragment_team"
+            android:name="com.smartplace.polar.fragments.TeamFragment"
+            android:layout_width="match_parent"
+            android:background="#f5500f"
+            android:layout_weight="1.7"
+            android:layout_height="match_parent"></fragment>
+
+
+        <fragment
+            android:id="@+id/fragment_feature"
+            android:name="com.smartplace.polar.fragments.FeatureFragment"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="match_parent"></fragment>
+
+
+        <View
+            android:background="@color/line_separator"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <fragment
+            android:id="@+id/fragment_requirement"
+            android:name="com.smartplace.polar.fragments.RequirementFragment"
+            android:layout_width="match_parent"
+            android:background="#550055"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"></fragment>
+
+    </LinearLayout>
+</FrameLayout>

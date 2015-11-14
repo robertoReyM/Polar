@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="bg_theme">#2d2130</color>
+    <color name="line_separator">#9c888e8b</color>
+    <color name="gray">#2d888e8b</color>
+    <color name="white">#f2f2f2</color>
+    <color name="blue">#3167ed</color>
+
+    <color name="colorPrimary">#2d2130</color>
+    <color name="colorPrimaryDark">#29232b</color>
+    <color name="colorAccent">#3167ed</color>
+    <color name="colorFeatureSelected">#4eac71</color>
+    <color name="colorRequirementSelected">#dddfde</color>
+    <color name="colorRed">#c41e3a</color>
+</resources>

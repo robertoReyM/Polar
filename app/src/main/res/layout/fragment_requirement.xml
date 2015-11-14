@@ -1,0 +1,158 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.smartplace.polar.fragments.RequirementFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:padding="10dp"
+                android:background="@drawable/bg_gray_rounded"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content" />
+
+            <com.smartplace.polar.custom.ProportionalImageView
+                android:id="@+id/iv_requirement"
+                android:layout_marginTop="20dp"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                />
+
+            <TextView
+                android:id="@+id/tv_requirement"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:layout_width="match_parent"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/btn_edit"
+                    android:layout_width="50dp"
+                    android:layout_gravity="center"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_edit"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:background="@android:color/transparent"
+                    android:layout_height="50dp" />
+                <ImageView
+                    android:id="@+id/btn_move"
+                    android:layout_width="50dp"
+                    android:layout_gravity="center"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_move"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:background="@android:color/transparent"
+                    android:layout_height="50dp" />
+
+                <ImageView
+                    android:id="@+id/btn_delete"
+                    android:layout_width="50dp"
+                    android:layout_gravity="center"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_delete"
+                    android:background="@android:color/transparent"
+                    android:layout_height="50dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:src="@drawable/ic_link_in"
+                    android:layout_height="20dp" />
+                <TextView
+                    android:id="@+id/tv_links_in"
+                    android:text="@string/in_links"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_add_link_in"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:elevation="4dp"
+                    android:src="@drawable/ic_action_new"
+                    app:backgroundTint="@color/blue"
+                    app:fabSize="mini"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_in_links"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"></LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:src="@drawable/ic_link_out"
+                    android:layout_height="20dp" />
+                <TextView
+                    android:id="@+id/tv_links_out"
+                    android:text="@string/out_links"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_add_link_out"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:elevation="4dp"
+                    android:src="@drawable/ic_action_new"
+                    app:backgroundTint="@color/blue"
+                    app:fabSize="mini"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_out_links"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"></LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

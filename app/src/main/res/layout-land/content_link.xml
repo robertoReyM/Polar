@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <fragment
+        android:id="@+id/fragment_file"
+        android:name="com.smartplace.polar.fragments.SpecificationFragment"
+        android:layout_width="match_parent"
+        android:background="#f5500f"
+        android:layout_weight="1.7"
+        android:layout_height="match_parent"></fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_feature"
+        android:name="com.smartplace.polar.fragments.FeatureFragment"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent"></fragment>
+
+
+
+</LinearLayout>

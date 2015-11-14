@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Polar</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="in_links">Enlaces de entrada</string>
+    <string name="out_links">Enlaces de salida</string>
+    <string name="new_section">Nueva sección</string>
+    <string name="add">Agregar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="new_file">Nueva especificación</string>
+    <string name="action_change_team">Cambiar equipo</string>
+    <string name="action_config">Configuración</string>
+    <string name="action_logout">Salir</string>
+    <string name="requirement">Requerimiento</string>
+    <string name="title">Titulo</string>
+    <string name="subtitle">Subtitulo</string>
+    <string name="image">Imagen</string>
+    <string name="url">Url</string>
+    <string name="space">Espacio</string>
+    <string name="navigation_drawer_open">navigation open</string>
+    <string name="navigation_drawer_close">navigation close</string>
+    <string name="new_image">Nueva imagen</string>
+    <string name="choose">Elegir</string>
+    <string name="choose_file">Elige el archivo al que desear enlazar este requerimiento</string>
+
+    <string-array
+        name="settings_array">
+        <item>Cambiar de equipo</item>
+        <item>Agregar especificación</item>
+        <item>Configuración</item>
+        <item>Salir</item>
+    </string-array>
+
+    <string-array
+        name="move_to_array">
+        <item>Insertar arriba</item>
+        <item>Insertar abajo</item>
+    </string-array>
+
+    <string-array name="types_array">
+        <item>Requerimiento</item>
+        <item>Titulo</item>
+        <item>Subtitulo</item>
+        <item>Imagen</item>
+        <item>Url</item>
+        <item>Espacio</item>
+    </string-array>
+    <string name="title_activity_link">LinkActivity</string>
+    <string name="move_to">Elija donde desea insertar el objeto</string>
+</resources>
