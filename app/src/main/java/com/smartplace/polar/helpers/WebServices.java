@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.smartplace.polar.BuildConfig;
 import com.smartplace.polar.custom.Log;
 import com.smartplace.polar.models.Feature;
+import com.smartplace.polar.models.Requirement;
 import com.smartplace.polar.models.Specification;
 import com.smartplace.polar.models.Team;
 import com.smartplace.polar.models.User;
@@ -50,6 +51,8 @@ public class WebServices {
     private static final String TEAM_ADD_SPECIFICATION  = "/team/add/specification";
     private static final String TEAM_GET_FEATURE        = "/team/get/feature";
     private static final String TEAM_ADD_FEATURE        = "/team/add/feature";
+    private static final String TEAM_GET_ITEM           = "/team/get/item";
+    private static final String TEAM_ADD_ITEM           = "/team/add/item";
 
     /***********************************************************************************************
      * User methods
@@ -550,7 +553,113 @@ public class WebServices {
             }
         });
     }
+    //**********************************************************************************************
+    public static void getItem(String publicKey, String itemID, final OnItemListener listener){
 
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"   ,timestamp);
+            jsonObject.accumulate("publicKey"   ,publicKey);
+            jsonObject.accumulate("itemID"      ,itemID);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_GET_ITEM, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_GET_ITEM, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        String itemData = jsonObject.getString("item");
+                        Requirement requirement = new Gson().fromJson(itemData, Requirement.class);
+
+                        //return team
+                        listener.onItemReceived(requirement);
+
+                    } else {
+
+                        listener.onItemReceived(null);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onItemReceived(null);
+                }
+            }
+        });
+    }
+    //**********************************************************************************************
+    public static void addItem(String publicKey, String featureID,String order,String type, String value, final OnItemListener listener){
+
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"   ,timestamp);
+            jsonObject.accumulate("publicKey"   ,publicKey);
+            jsonObject.accumulate("featureID"   ,featureID);
+            //jsonObject.accumulate("order"       ,order);
+            jsonObject.accumulate("type"        ,type);
+            jsonObject.accumulate("value"       ,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_ADD_ITEM, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_ADD_ITEM, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        String itemData = jsonObject.getString("item");
+                        Requirement requirement = new Gson().fromJson(itemData, Requirement.class);
+
+                        //return team
+                        listener.onItemReceived(requirement);
+
+                    } else {
+
+                        listener.onItemReceived(null);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onItemReceived(null);
+                }
+            }
+        });
+    }
     /***********************************************************************************************
      * Common methods
      ***********************************************************************************************/
@@ -789,6 +898,11 @@ public class WebServices {
     public interface OnFeatureListener {
 
         void onFeatureReceived(Feature feature);
+    }
+    //**********************************************************************************************
+    public interface OnItemListener {
+
+        void onItemReceived(Requirement requirement);
     }
 
 

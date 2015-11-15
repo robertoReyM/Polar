@@ -118,6 +118,7 @@ public class TeamFragment extends Fragment {
                                         mTeam.getSpecifications().add(specification);
                                         mSpecificationsAdapter.notifyDataSetChanged();
                                         mCurrentSpecification = mTeam.getSpecifications().size()-1;
+                                        mSpSpecifications.setSelection(mCurrentSpecification);
                                         getTeamSpecification(mTeam,mCurrentSpecification);
 
                                     }

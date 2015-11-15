@@ -129,20 +129,30 @@ public class FeatureFragment extends Fragment {
 
                 if(!mEtRequirement.getText().toString().equals("")) {
 
-                    Requirement requirement = new Requirement();
-                    requirement.setValue(mEtRequirement.getText().toString());
-                    requirement.setType(mType);
-                    requirement.setInLinks(new ArrayList<Link>());
-                    requirement.setOutLinks(new ArrayList<Link>());
-                    requirement.setOrder(mFeature.getItems().size());
-                    requirement.setComments(new ArrayList<Comment>());
+                    String value = mEtRequirement.getText().toString();
+                    String type = String.valueOf(mType);
 
-                    mFeature.getItems().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
-                    mEtRequirement.setText("");
-                    mRequirementsAdapter.notifyDataSetChanged();
-                    if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount()-2) {
-                        mListRequirements.smoothScrollToPosition(mRequirementsAdapter.getCount() - 1);
-                    }
+                    WebServices.addItem(MemoryServices.getPublicKey(getActivity()), mFeature.getId(),
+                            "", type, value, new WebServices.OnItemListener() {
+                        @Override
+                        public void onItemReceived(Requirement requirement) {
+
+                            if(mFeature.getItems().size()>0) {
+                                mFeature.getItems().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
+                            }else{
+                                mFeature.getItems().add(requirement);
+                            }
+                            mEtRequirement.setText("");
+                            orderRequirements(mFeature.getItems());
+                            mRequirementsAdapter.notifyDataSetChanged();
+
+                            if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount()-2) {
+                                mListRequirements.smoothScrollToPosition(mRequirementsAdapter.getCount() - 1);
+                            }
+
+                        }
+                    });
+
 
                 }
             }
