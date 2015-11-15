@@ -35,7 +35,6 @@ import com.smartplace.polar.helpers.Constants;
 import com.smartplace.polar.helpers.MemoryServices;
 import com.smartplace.polar.helpers.Utilities;
 import com.smartplace.polar.helpers.WebServices;
-import com.smartplace.polar.listeners.OnFeatureListener;
 import com.smartplace.polar.models.Comment;
 import com.smartplace.polar.models.Feature;
 import com.smartplace.polar.models.Link;
@@ -72,7 +71,7 @@ public class FeatureFragment extends Fragment {
     private ImageView mIvBtnType;
     private int mType = Constants.TYPE_REQUIREMENT;
     private LinearLayout mLlNewRequirement;
-    private OnFeatureListener mListener;
+    private com.smartplace.polar.listeners.OnFeatureListener mListener;
 
     public static FeatureFragment newInstance() {
         FeatureFragment fragment = new FeatureFragment();
@@ -177,7 +176,7 @@ public class FeatureFragment extends Fragment {
         });
         return v;
     }
-    public void setOnFeatureListener(OnFeatureListener onFeatureListener){
+    public void setOnFeatureListener(com.smartplace.polar.listeners.OnFeatureListener onFeatureListener){
 
         mListener = onFeatureListener;
 
@@ -221,9 +220,9 @@ public class FeatureFragment extends Fragment {
     }
     public void getSpecificationFeature(){
 
-        WebServices.getSpecificationFeature(MemoryServices.getPublicKey(getActivity()), mFeature.getId(), new WebServices.OnFileFeatureListener() {
+        WebServices.getFeature(MemoryServices.getPublicKey(getActivity()), mFeature.getId(), new WebServices.OnFeatureListener() {
             @Override
-            public void onFileFeatureReceived(Feature feature) {
+            public void onFeatureReceived(Feature feature) {
 
                 setFeatureData(feature);
             }

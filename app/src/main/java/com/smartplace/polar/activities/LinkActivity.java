@@ -1,5 +1,6 @@
 package com.smartplace.polar.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,8 @@ public class LinkActivity extends AppCompatActivity implements OnFileListener, O
     public static final String ARG_LINK_TYPE = "link_type";
     public static final String LINK_TYPE_IN = "link_in";
     public static final String LINK_TYPE_OUT = "link_out";
+    public static final String SOURCE_ID = "source_id";
+    public static final String DESTINATION_ID = "destination_id";
 
     private String mSourceID;
     private String mDestinationID;
@@ -108,8 +111,16 @@ public class LinkActivity extends AppCompatActivity implements OnFileListener, O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                //check for null source or destination ids
+                if(mSourceID!=null && mDestinationID!=null){
+
+                    Intent intent = new Intent();
+                    intent.putExtra(SOURCE_ID,mSourceID);
+                    intent.putExtra(DESTINATION_ID,mDestinationID);
+                    setResult(RESULT_OK,intent);
+                    finish();
+                }
             }
         });
     }

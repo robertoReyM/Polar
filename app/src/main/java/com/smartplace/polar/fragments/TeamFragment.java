@@ -245,9 +245,9 @@ public class TeamFragment extends Fragment {
 
         if(team.getSpecifications().size()>0) {
 
-            WebServices.getTeamSpecification(MemoryServices.getPublicKey(getActivity()), mTeam.getSpecifications().get(currentFile).getId(), new WebServices.OnTeamFileListener() {
+            WebServices.getSpecification(MemoryServices.getPublicKey(getActivity()), mTeam.getSpecifications().get(currentFile).getId(), new WebServices.OnSpecificationListener() {
                 @Override
-                public void onTeamFileReceived(Specification specification) {
+                public void onSpecificationReceived(Specification specification) {
 
                     if (isAdded()) {
                         team.getSpecifications().set(currentFile, specification);

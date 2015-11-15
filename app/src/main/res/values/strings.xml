@@ -51,4 +51,23 @@
     </string-array>
     <string name="title_activity_link">LinkActivity</string>
     <string name="move_to">Elija donde desea insertar el objeto</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Correo</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Iniciar sesión</string>
+    <string name="action_sign_in_short">Iniciar sesión</string>
+    <string name="error_invalid_email">Este correo es inválido</string>
+    <string name="error_invalid_password">Contraseña muy corta</string>
+    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="not_registered">¿Aún no tienes cuenta?</string>
+    <string name="title_activity_register">Sign in</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_register">Registrarse</string>
+    <string name="prompt_name">Nombre</string>
+    <string name="prompt_username">Usuario</string>
 </resources>

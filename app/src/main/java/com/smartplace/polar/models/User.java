@@ -7,12 +7,21 @@ import java.util.ArrayList;
  */
 public class User {
 
+    private String name;
     private String username;
     private String email;
     private ArrayList<Team> teams;
 
     public ArrayList<Team> getTeams() {
         return teams;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setTeams(ArrayList<Team> teams) {

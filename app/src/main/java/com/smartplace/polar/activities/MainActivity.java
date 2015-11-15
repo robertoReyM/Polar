@@ -27,6 +27,7 @@ import com.smartplace.polar.models.User;
 
 public class MainActivity extends AppCompatActivity implements OnTeamListener, OnFeatureListener, OnRequirementListener{
 
+    public static final int REQUEST_LINK = 345;
     private TeamFragment mTeamFragment;
     private FeatureFragment mFeatureFragment;
     private RequirementFragment mRequirementFragment;
@@ -186,7 +187,20 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == REQUEST_LINK) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
 
+                String sourceID = data.getStringExtra(LinkActivity.SOURCE_ID);
+                String destinationID = data.getStringExtra(LinkActivity.DESTINATION_ID);
+
+                Snackbar.make(findViewById(android.R.id.content),String.format("source:%s destination:%s",sourceID,destinationID),Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
     private void setFileDialog(final String requirementID, final String linkType){
 
         Team team = mTeamFragment.getTeam();
@@ -213,7 +227,8 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
                         intent.putExtra(LinkActivity.ARG_REQUIREMENT_ID,requirementID);
                         intent.putExtra(LinkActivity.ARG_LINK_TYPE,linkType);
                         intent.putExtra(LinkActivity.ARG_FILE,new Gson().toJson(mTeamFragment.getTeam().getSpecifications().get(which)));
-                        startActivity(intent);
+                        startActivityForResult(intent,REQUEST_LINK);
+
                         Toast.makeText(getBaseContext(),text,Toast.LENGTH_SHORT).show();
                         return true;
                     }
