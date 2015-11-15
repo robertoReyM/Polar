@@ -9,7 +9,7 @@ public class Feature {
 
     private String id;
     private String name;
-    private ArrayList<Requirement> requirements;
+    private ArrayList<Requirement> items;
 
     public String getId() {
         return id;
@@ -27,17 +27,17 @@ public class Feature {
         this.name = name;
     }
 
-    public ArrayList<Requirement> getRequirements() {
-        return requirements;
+    public ArrayList<Requirement> getItems() {
+        return items;
     }
 
-    public void setRequirements(ArrayList<Requirement> requirements) {
-        this.requirements = requirements;
+    public void setItems(ArrayList<Requirement> items) {
+        this.items = items;
     }
 
-    public Requirement getRequirementByID(String id){
+    public Requirement getItemByID(String id){
 
-        for(Requirement requirement:requirements){
+        for(Requirement requirement: items){
 
             if(id.equals(requirement.getId())){
 

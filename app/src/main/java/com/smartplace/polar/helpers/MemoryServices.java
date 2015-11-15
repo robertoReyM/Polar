@@ -44,18 +44,7 @@ public class MemoryServices {
         SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
         return mySharedPreferences.getString(ARG_USER_DATA, DEFAULT_USER_DATA);
     }
-    public static void setUserTeams(Context context, String value) {
-        SharedPreferences mySharedPreferences =
-                context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mySharedPreferences.edit();
-        editor.putString(ARG_USER_TEAMS, value);
-        editor.apply();
-    }
 
-    public static String getUserTeams(Context context) {
-        SharedPreferences mySharedPreferences = context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);
-        return mySharedPreferences.getString(ARG_USER_TEAMS, null);
-    }
     public static void setTeam(Context context, String teamID,String value) {
         SharedPreferences mySharedPreferences =
                 context.getSharedPreferences(ARG_FILE, Context.MODE_PRIVATE);

@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -140,21 +141,39 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSessionResult(String publicKey, User user) {
 
-                    MemoryServices.setPublicKey(getBaseContext(),publicKey);
-                    MemoryServices.setUserData(getBaseContext(), new Gson().toJson(user));
-                    MemoryServices.setUserTeams(getBaseContext(),new Gson().toJson(user.getTeams()));
+                    if(publicKey!=null) {
+
+                        MemoryServices.setPublicKey(getBaseContext(), publicKey);
+                        MemoryServices.setUserData(getBaseContext(), new Gson().toJson(user));
+
+                        //check if it has a team already
+                        if (user.getTeams().size() > 0) {
+
+                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+
+                        } else { //no team yet
+
+                            Intent intent = new Intent(getBaseContext(), CreateTeamActivity.class);
+                            startActivityForResult(intent, CreateTeamActivity.REQUEST_CREATE_TEAM);
+                        }
+                    }else{
+
+                        showProgress(false);
+                        Snackbar.make(findViewById(android.R.id.content), R.string.invalid_credentials,Snackbar.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return email.length() > 4;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -193,7 +212,20 @@ public class LoginActivity extends AppCompatActivity {
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == CreateTeamActivity.REQUEST_CREATE_TEAM) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
 
+                Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
 
 }
 

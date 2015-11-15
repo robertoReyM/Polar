@@ -70,4 +70,9 @@
     <string name="action_register">Registrarse</string>
     <string name="prompt_name">Nombre</string>
     <string name="prompt_username">Usuario</string>
+    <string name="title_activity_create_team">Equipo de trabajo</string>
+    <string name="new_team_header">Crea un nuevo equipo de trabajo con el que podrás agrupar y compartir las especificaciones con respecto a un proyecto</string>
+    <string name="prompt_team_name">Nombre del equipo</string>
+    <string name="invalid_credentials">Credenciales inválidas</string>
+    <string name="username_email_not_available">Correo o nombre de usuario no esta disponible</string>
 </resources>

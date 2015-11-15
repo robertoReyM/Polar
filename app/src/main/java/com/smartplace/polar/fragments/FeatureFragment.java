@@ -107,9 +107,9 @@ public class FeatureFragment extends Fragment {
         mFeature = new Feature();
         mFeature.setId("");
         mFeature.setName("");
-        mFeature.setRequirements(new ArrayList<Requirement>());
+        mFeature.setItems(new ArrayList<Requirement>());
 
-        mRequirementsAdapter = new RequirementsAdapter(getActivity(),mFeature.getRequirements());
+        mRequirementsAdapter = new RequirementsAdapter(getActivity(),mFeature.getItems());
         mListRequirements.setAdapter(mRequirementsAdapter);
 
         mListRequirements.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,7 +118,7 @@ public class FeatureFragment extends Fragment {
 
                 if (mListener != null) {
 
-                    mListener.onRequirementSelected(mFeature.getRequirements().get(i));
+                    mListener.onRequirementSelected(mFeature.getItems().get(i));
                     mRequirementsAdapter.setSelectedItem(i);
                 }
             }
@@ -134,10 +134,10 @@ public class FeatureFragment extends Fragment {
                     requirement.setType(mType);
                     requirement.setInLinks(new ArrayList<Link>());
                     requirement.setOutLinks(new ArrayList<Link>());
-                    requirement.setOrder(mFeature.getRequirements().size());
+                    requirement.setOrder(mFeature.getItems().size());
                     requirement.setComments(new ArrayList<Comment>());
 
-                    mFeature.getRequirements().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
+                    mFeature.getItems().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
                     mEtRequirement.setText("");
                     mRequirementsAdapter.notifyDataSetChanged();
                     if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount()-2) {
@@ -189,7 +189,7 @@ public class FeatureFragment extends Fragment {
             mTvFeature.setText(feature.getName());
             mFeature.setId(feature.getId());
             mFeature.setName(feature.getName());
-            mFeature.getRequirements().clear();
+            mFeature.getItems().clear();
             mRequirementsAdapter.notifyDataSetChanged();
 
             getSpecificationFeature();
@@ -200,8 +200,8 @@ public class FeatureFragment extends Fragment {
     }
     public void changeRequirementOrder(String movedRequirementID,String referenceRequirementID,int orderType){
 
-        Requirement movedRequirement = mFeature.getRequirementByID(movedRequirementID);
-        Requirement referenceRequirement = mFeature.getRequirementByID(referenceRequirementID);
+        Requirement movedRequirement = mFeature.getItemByID(movedRequirementID);
+        Requirement referenceRequirement = mFeature.getItemByID(referenceRequirementID);
 
         if(orderType == MOVE_ABOVE){
 
@@ -216,7 +216,7 @@ public class FeatureFragment extends Fragment {
 
         int selected = mRequirementsAdapter.getSelectedItem();
         mRequirementsAdapter.setSelectedItem(selected-1);
-        mFeature.getRequirements().remove(selected);
+        mFeature.getItems().remove(selected);
     }
     public void getSpecificationFeature(){
 
@@ -246,13 +246,13 @@ public class FeatureFragment extends Fragment {
         if (isAdded()) {
             mFeature.setId(feature.getId());
             mFeature.setName(feature.getName());
-            mFeature.getRequirements().clear();
-            mFeature.getRequirements().addAll(feature.getRequirements());
+            mFeature.getItems().clear();
+            mFeature.getItems().addAll(feature.getItems());
 
             mTvFeature.setText(feature.getName());
             mRequirementsAdapter.notifyDataSetChanged();
 
-            if (mFeature.getRequirements().size() > 0) {
+            if (mFeature.getItems().size() > 0) {
                 mListRequirements.performItemClick(mListRequirements.getAdapter().getView(0, null, null), 0, mListRequirements.getItemIdAtPosition(0));
                 mListRequirements.smoothScrollToPosition(0);
             }
@@ -325,7 +325,7 @@ public class FeatureFragment extends Fragment {
                                     requirement.setValue(comment);
                                     requirement.setInLinks(new ArrayList<Link>());
                                     requirement.setOutLinks(new ArrayList<Link>());
-                                    mFeature.getRequirements().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
+                                    mFeature.getItems().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
                                     mRequirementsAdapter.notifyDataSetChanged();
                                     mListRequirements.smoothScrollToPosition(mRequirementsAdapter.getCount() - 1);
                                 }
@@ -384,7 +384,7 @@ public class FeatureFragment extends Fragment {
                                 requirement.setValue(comment);
                                 requirement.setInLinks(new ArrayList<Link>());
                                 requirement.setOutLinks(new ArrayList<Link>());
-                                mFeature.getRequirements().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
+                                mFeature.getItems().add(mRequirementsAdapter.getSelectedItem() + 1, requirement);
                                 mRequirementsAdapter.notifyDataSetChanged();
                             }
                         })

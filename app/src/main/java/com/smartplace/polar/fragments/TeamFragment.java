@@ -111,12 +111,17 @@ public class TeamFragment extends Fragment {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                                 String name = ((EditText) dialog.getView().findViewById(R.id.et_name)).getText().toString();
-                                Specification specification = new Specification();
-                                specification.setId(String.valueOf(mTeam.getSpecifications().size()+1));
-                                specification.setName(name);
-                                mTeam.getSpecifications().add(specification);
-                                mSpecificationsAdapter.notifyDataSetChanged();
-                                Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+                                WebServices.addSpecification(MemoryServices.getPublicKey(getActivity()), mTeam.getId(), name, new WebServices.OnSpecificationListener() {
+                                    @Override
+                                    public void onSpecificationReceived(Specification specification) {
+
+                                        mTeam.getSpecifications().add(specification);
+                                        mSpecificationsAdapter.notifyDataSetChanged();
+                                        mCurrentSpecification = mTeam.getSpecifications().size()-1;
+                                        getTeamSpecification(mTeam,mCurrentSpecification);
+
+                                    }
+                                });
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -142,12 +147,20 @@ public class TeamFragment extends Fragment {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                                 String name = ((EditText) dialog.getView().findViewById(R.id.et_name)).getText().toString();
-                                Feature feature = new Feature();
-                                feature.setId(String.valueOf(mTeam.getSpecifications().get(mCurrentSpecification).getFeatures().size()+1));
-                                feature.setName(name);
-                                mTeam.getSpecifications().get(mCurrentSpecification).getFeatures().add(feature);
-                                mFeaturesAdapter.notifyDataSetChanged();
-                                Toast.makeText(getActivity(), name, Toast.LENGTH_SHORT).show();
+                                WebServices.addFeature(MemoryServices.getPublicKey(getActivity()),
+                                        mTeam.getSpecifications().get(mCurrentSpecification).getId(),
+                                        name, new WebServices.OnFeatureListener() {
+                                            @Override
+                                            public void onFeatureReceived(Feature feature) {
+
+                                                mTeam.getSpecifications().get(mCurrentSpecification).getFeatures().add(feature);
+                                                mFeaturesAdapter.notifyDataSetChanged();
+                                                int size = mTeam.getSpecifications().get(mCurrentSpecification).getFeatures().size();
+                                                mListener.onFeatureSelected(mTeam.getSpecifications().get(mCurrentSpecification).getFeatures().get(size-1));
+                                                mFeaturesAdapter.setSelectedItem(size-1);
+                                    }
+                                });
+
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -196,7 +209,7 @@ public class TeamFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 mCurrentSpecification = i;
-                getTeamFile(mTeam, mCurrentSpecification);
+                getTeamSpecification(mTeam, mCurrentSpecification);
 
             }
 
@@ -237,11 +250,11 @@ public class TeamFragment extends Fragment {
 
         mCurrentSpecification = 0;
 
-        getTeamFile(mTeam, mCurrentSpecification);
+        getTeamSpecification(mTeam, mCurrentSpecification);
 
     }
 
-    private void getTeamFile(final Team team, final int currentFile){
+    private void getTeamSpecification(final Team team, final int currentFile){
 
         if(team.getSpecifications().size()>0) {
 

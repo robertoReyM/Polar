@@ -37,7 +37,7 @@ public class WebServices {
     private static final String TAG = "WebServices";
     private static final int CONNECTION_TIMEOUT = 5000;
 
-    private static final String SERVER_URL              = "http://amxapi.elasticbeanstalk.com";
+    private static final String SERVER_URL              = "http://192.168.100.12:8888";
 
     private static final String USER_REGISTER           = "/user/register";
     private static final String USER_LOGIN              = "/user/login";
@@ -47,7 +47,9 @@ public class WebServices {
     private static final String USER_TEAM_ADD_USER      = "/user/team/add/user";
 
     private static final String TEAM_GET_SPECIFICATION  = "/team/get/specification";
+    private static final String TEAM_ADD_SPECIFICATION  = "/team/add/specification";
     private static final String TEAM_GET_FEATURE        = "/team/get/feature";
+    private static final String TEAM_ADD_FEATURE        = "/team/add/feature";
 
     /***********************************************************************************************
      * User methods
@@ -335,6 +337,9 @@ public class WebServices {
         });
     }
 
+    /***********************************************************************************************
+     * Team methods
+     ***********************************************************************************************/
     public static void getSpecification(String publicKey, String specificationID, final OnSpecificationListener listener){
 
         //get timestamp
@@ -386,7 +391,61 @@ public class WebServices {
             }
         });
     }
+    //**********************************************************************************************
+    public static void addSpecification(String publicKey, String teamID, String name,final OnSpecificationListener listener){
 
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"           ,timestamp);
+            jsonObject.accumulate("publicKey"           ,publicKey);
+            jsonObject.accumulate("teamID"              ,teamID);
+            jsonObject.accumulate("name"                ,name);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_ADD_SPECIFICATION, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_ADD_SPECIFICATION, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        String specificationData = jsonObject.getString("specification");
+                        Specification specification = new Gson().fromJson(specificationData, Specification.class);
+
+                        //return team
+                        listener.onSpecificationReceived(specification);
+
+                    } else {
+
+                        listener.onSpecificationReceived(null);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onSpecificationReceived(null);
+                }
+            }
+        });
+    }
+
+    //**********************************************************************************************
     public static void getFeature(String publicKey, String featureID, final OnFeatureListener listener){
 
         //get timestamp
@@ -411,6 +470,59 @@ public class WebServices {
             public void onHttpPostResponse(String response) {
 
                 Log.d(TAG + TEAM_GET_FEATURE, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        String featureData = jsonObject.getString("feature");
+                        Feature feature = new Gson().fromJson(featureData, Feature.class);
+
+                        //return team
+                        listener.onFeatureReceived(feature);
+
+                    } else {
+
+                        listener.onFeatureReceived(null);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onFeatureReceived(null);
+                }
+            }
+        });
+    }
+    //**********************************************************************************************
+    public static void addFeature(String publicKey, String specificationID,String name, final OnFeatureListener listener){
+
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"           ,timestamp);
+            jsonObject.accumulate("publicKey"           ,publicKey);
+            jsonObject.accumulate("specificationID"     ,specificationID);
+            jsonObject.accumulate("name"                ,name);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_ADD_FEATURE, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_ADD_FEATURE, response);
 
                 try {
 
