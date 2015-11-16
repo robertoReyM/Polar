@@ -3,6 +3,7 @@ package com.smartplace.polar.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.smartplace.polar.R;
 import com.smartplace.polar.helpers.Constants;
 import com.smartplace.polar.helpers.MemoryServices;
@@ -27,6 +31,7 @@ import com.smartplace.polar.models.Comment;
 import com.smartplace.polar.models.Link;
 import com.smartplace.polar.models.LinkReference;
 import com.smartplace.polar.models.Requirement;
+import com.smartplace.polar.models.Specification;
 
 import java.util.ArrayList;
 
@@ -157,8 +162,45 @@ public class RequirementFragment extends Fragment {
         });
         ivbBtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
+                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                        .title(R.string.edit_item)
+                        .customView(R.layout.dialog_edit_item, true)
+                        .positiveText(R.string.save)
+                        .negativeText(R.string.cancel)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                final String value = ((EditText) dialog.getView().findViewById(R.id.et_value)).getText().toString();
+                                WebServices.editItem(MemoryServices.getPublicKey(getActivity()),
+                                        mRequirement.getId(), value, new WebServices.OnActionListener() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                        mRequirement.setValue(value);
+                                        mListener.onRequirementEdited(mRequirement);
+                                    }
+
+                                    @Override
+                                    public void onFailed(String failReason) {
+
+                                        Snackbar.make(view,failReason,Snackbar.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                // TODO
+                            }
+                        })
+                        .show();
+
+                EditText etValue = ((EditText) dialog.getView().findViewById(R.id.et_value));
+                etValue.setText(mRequirement.getValue());
             }
         });
         ivbBtnDelete.setOnClickListener(new View.OnClickListener() {
@@ -191,12 +233,14 @@ public class RequirementFragment extends Fragment {
 
     public void setRequirement(Requirement requirement){
 
-        if(requirement!=null) {
-            mView.setVisibility(View.VISIBLE);
-            setRequirementData(requirement);
-        }else{
+        if(isAdded()) {
+            if (requirement != null) {
+                mView.setVisibility(View.VISIBLE);
+                setRequirementData(requirement);
+            } else {
 
-            mView.setVisibility(View.INVISIBLE);
+                mView.setVisibility(View.INVISIBLE);
+            }
         }
 
     }

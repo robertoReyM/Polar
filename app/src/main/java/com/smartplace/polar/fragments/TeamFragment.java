@@ -197,7 +197,6 @@ public class TeamFragment extends Fragment {
                                 mListener.onChangeTeamSelected();
                                 break;
                         }
-                        Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 });
@@ -275,17 +274,23 @@ public class TeamFragment extends Fragment {
                 public void onSpecificationReceived(Specification specification) {
 
                     if (isAdded()) {
+
                         team.getSpecifications().set(currentFile, specification);
                         mFeaturesAdapter = new FeaturesAdapter(getActivity(), mTeam.getSpecifications().get(currentFile).getFeatures());
                         mListFeatures.setAdapter(mFeaturesAdapter);
 
                         if (mTeam.getSpecifications().get(currentFile).getFeatures().size() > 0) {
                             mListFeatures.performItemClick(mListFeatures.getAdapter().getView(1, null, null), 1, mListFeatures.getItemIdAtPosition(1));
+                        }else{
+                            mListener.onFeatureSelected(null);
                         }
                     }
                 }
             });
 
+        }else{
+            mListFeatures.setAdapter(null);
+            mListener.onFeatureSelected(null);
         }
 
     }

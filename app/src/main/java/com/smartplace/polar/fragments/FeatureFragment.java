@@ -152,8 +152,9 @@ public class FeatureFragment extends Fragment {
                             }
                             mEtRequirement.setText("");
                             mRequirementsAdapter.notifyDataSetChanged();
+                            mRequirementsAdapter.setSelectedItem(mRequirementsAdapter.getSelectedItem() + 1);
 
-                            if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount()-2) {
+                            if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount() - 1) {
                                 mListRequirements.smoothScrollToPosition(mRequirementsAdapter.getCount() - 1);
                             }
 
@@ -202,16 +203,22 @@ public class FeatureFragment extends Fragment {
     public void setFeature(Feature feature){
 
         if(isAdded()) {
-            //change view
-            mTvFeature.setText(feature.getName());
-            mFeature.setId(feature.getId());
-            mFeature.setName(feature.getName());
-            mFeature.getItems().clear();
-            mRequirementsAdapter.notifyDataSetChanged();
 
-            getSpecificationFeature();
+            if(feature!=null) {
+                //change view
+                mTvFeature.setText(feature.getName());
+                mFeature.setId(feature.getId());
+                mFeature.setName(feature.getName());
+                mFeature.getItems().clear();
+                mRequirementsAdapter.notifyDataSetChanged();
 
-
+                getSpecificationFeature();
+            }else{
+                mTvFeature.setText("");
+                mFeature.setName("");
+                mFeature.getItems().clear();
+                mRequirementsAdapter.notifyDataSetChanged();
+            }
         }
 
     }

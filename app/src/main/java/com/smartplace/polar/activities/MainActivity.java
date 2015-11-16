@@ -164,6 +164,12 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
         mFeatureFragment.removeSelectedRequirement();
     }
 
+    @Override
+    public void onRequirementEdited(Requirement requirement) {
+
+        mFeatureFragment.getSpecificationFeature();
+    }
+
 
     @Override
     public void onRequirementOrderWillChange(String requirementID) {
@@ -186,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
 
     @Override
     public void onChangeTeamSelected() {
-
+        setTeamDialog();
     }
 
     @Override
@@ -200,6 +206,15 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
                 String destinationID = data.getStringExtra(LinkActivity.DESTINATION_ID);
 
                 Snackbar.make(findViewById(android.R.id.content),String.format("source:%s destination:%s",sourceID,destinationID),Snackbar.LENGTH_SHORT).show();
+            }
+        }else if (requestCode == CreateTeamActivity.REQUEST_CREATE_TEAM) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+
+                mUser = new Gson().fromJson(MemoryServices.getUserData(getBaseContext()), User.class);
+
+                mCurrentTeam = mUser.getTeams().size()-1;
+                mTeamFragment.setTeam(mUser.getTeams().get(mCurrentTeam));
             }
         }
     }
@@ -239,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
     }
     private void setTeamDialog(){
 
-        final String files[] = new String[mUser.getTeams().size()];
+        final String files[] = new String[mUser.getTeams().size()+1];
 
         int i = 0;
         for(Team team : mUser.getTeams()){
@@ -247,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
             files[i] = team.getName();
             i++;
         }
+        files[files.length-1]=getString(R.string.add_team);
 
         new MaterialDialog.Builder(this)
                 .title(R.string.choose_file)
@@ -255,8 +271,15 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 
-                        mCurrentTeam = which;
-                        mTeamFragment.setTeam(mUser.getTeams().get(mCurrentTeam));
+                        if (text.equals(getString(R.string.add_team))) {
+
+                            Intent intent = new Intent(getBaseContext(),CreateTeamActivity.class);
+                            startActivityForResult(intent,CreateTeamActivity.REQUEST_CREATE_TEAM);
+
+                        } else {
+                            mCurrentTeam = which;
+                            mTeamFragment.setTeam(mUser.getTeams().get(mCurrentTeam));
+                        }
                         return true;
                     }
                 })

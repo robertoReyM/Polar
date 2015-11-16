@@ -53,6 +53,7 @@ public class WebServices {
     private static final String TEAM_ADD_FEATURE        = "/team/add/feature";
     private static final String TEAM_GET_ITEM           = "/team/get/item";
     private static final String TEAM_ADD_ITEM           = "/team/add/item";
+    private static final String TEAM_EDIT_ITEM           = "/team/edit/item";
     private static final String TEAM_DELETE_ITEM        = "/team/delete/item";
 
     /***********************************************************************************************
@@ -657,6 +658,55 @@ public class WebServices {
                 } catch (JsonSyntaxException | JSONException e) {
                     e.printStackTrace();
                     listener.onItemReceived(null);
+                }
+            }
+        });
+    }
+    //**********************************************************************************************
+    public static void editItem(String publicKey, String itemID, String value,final OnActionListener listener){
+
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"   ,timestamp);
+            jsonObject.accumulate("publicKey"   ,publicKey);
+            jsonObject.accumulate("itemID"      ,itemID);
+            jsonObject.accumulate("value"       ,value);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_EDIT_ITEM, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_EDIT_ITEM, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        listener.onSuccess();
+
+                    } else {
+
+                        listener.onFailed(responseStatus);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onFailed("");
                 }
             }
         });

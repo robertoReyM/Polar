@@ -75,4 +75,7 @@
     <string name="prompt_team_name">Nombre del equipo</string>
     <string name="invalid_credentials">Credenciales inválidas</string>
     <string name="username_email_not_available">Correo o nombre de usuario no esta disponible</string>
+    <string name="add_team">Agregar un equipo</string>
+    <string name="save">Guardar</string>
+    <string name="edit_item">Cambio del elemento</string>
 </resources>
