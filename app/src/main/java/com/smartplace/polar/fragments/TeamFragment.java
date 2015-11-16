@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -45,6 +46,7 @@ public class TeamFragment extends Fragment {
     private int mCurrentSpecification = 0;
     private FeaturesAdapter mFeaturesAdapter;
     private SpecificationsAdapter mSpecificationsAdapter;
+    private TextView mTvTeamName;
     private ListView mListFeatures;
     private Spinner mSpSpecifications;
     private Button mBtnSettings;
@@ -80,6 +82,7 @@ public class TeamFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_team, container, false);
         View headerFeature = inflater.inflate(R.layout.list_header_feature, container, false);
+        mTvTeamName = (TextView)v.findViewById(R.id.tv_team_name);
         mListFeatures = (ListView)v.findViewById(R.id.list_features);
         mSpSpecifications = (Spinner)v.findViewById(R.id.sp_file);
         mBtnSettings = (Button) v.findViewById(R.id.btn_settings);
@@ -186,6 +189,14 @@ public class TeamFragment extends Fragment {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()){
+
+                            case R.id.action_change_team:
+
+                                mListener.onChangeTeamSelected();
+                                break;
+                        }
                         Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
                         return true;
                     }
@@ -231,7 +242,6 @@ public class TeamFragment extends Fragment {
 
         if(isAdded()) {
             setTeamData(team);
-
         }
 
     }
@@ -249,6 +259,7 @@ public class TeamFragment extends Fragment {
         mTeam.getSpecifications().addAll(team.getSpecifications());
         mSpecificationsAdapter.notifyDataSetChanged();
 
+        mTvTeamName.setText(mTeam.getName());
         mCurrentSpecification = 0;
 
         getTeamSpecification(mTeam, mCurrentSpecification);

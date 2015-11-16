@@ -98,8 +98,10 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
             @Override
             public void onUserTeamReceived(Team team) {
 
-                mUser.getTeams().set(mCurrentTeam, team);
-                mTeamFragment.setTeam(team);
+                if(team!=null) {
+                    mUser.getTeams().set(mCurrentTeam, team);
+                    mTeamFragment.setTeam(team);
+                }
             }
         });
     }
@@ -230,6 +232,31 @@ public class MainActivity extends AppCompatActivity implements OnTeamListener, O
                         startActivityForResult(intent,REQUEST_LINK);
 
                         Toast.makeText(getBaseContext(),text,Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                })
+                .show();
+    }
+    private void setTeamDialog(){
+
+        final String files[] = new String[mUser.getTeams().size()];
+
+        int i = 0;
+        for(Team team : mUser.getTeams()){
+
+            files[i] = team.getName();
+            i++;
+        }
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.choose_file)
+                .items(files)
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        mCurrentTeam = which;
+                        mTeamFragment.setTeam(mUser.getTeams().get(mCurrentTeam));
                         return true;
                     }
                 })

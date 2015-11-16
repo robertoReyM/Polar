@@ -38,7 +38,7 @@ public class WebServices {
     private static final String TAG = "WebServices";
     private static final int CONNECTION_TIMEOUT = 5000;
 
-    private static final String SERVER_URL              = "http://192.168.100.12:8888";
+    private static final String SERVER_URL              = "http://192.168.100.13:8888";
 
     private static final String USER_REGISTER           = "/user/register";
     private static final String USER_LOGIN              = "/user/login";
@@ -53,6 +53,7 @@ public class WebServices {
     private static final String TEAM_ADD_FEATURE        = "/team/add/feature";
     private static final String TEAM_GET_ITEM           = "/team/get/item";
     private static final String TEAM_ADD_ITEM           = "/team/add/item";
+    private static final String TEAM_DELETE_ITEM        = "/team/delete/item";
 
     /***********************************************************************************************
      * User methods
@@ -606,7 +607,7 @@ public class WebServices {
         });
     }
     //**********************************************************************************************
-    public static void addItem(String publicKey, String featureID,String order,String type, String value, final OnItemListener listener){
+    public static void addItem(String publicKey, String featureID,String predecessorID,String type, String value, final OnItemListener listener){
 
         //get timestamp
         long timestamp = System.currentTimeMillis();
@@ -616,12 +617,12 @@ public class WebServices {
 
         try {
             //add parameters
-            jsonObject.accumulate("timestamp"   ,timestamp);
-            jsonObject.accumulate("publicKey"   ,publicKey);
-            jsonObject.accumulate("featureID"   ,featureID);
-            //jsonObject.accumulate("order"       ,order);
-            jsonObject.accumulate("type"        ,type);
-            jsonObject.accumulate("value"       ,value);
+            jsonObject.accumulate("timestamp"       ,timestamp);
+            jsonObject.accumulate("publicKey"       ,publicKey);
+            jsonObject.accumulate("featureID"       ,featureID);
+            jsonObject.accumulate("predecessorID"   ,predecessorID);
+            jsonObject.accumulate("type"            ,type);
+            jsonObject.accumulate("value"           ,value);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -656,6 +657,54 @@ public class WebServices {
                 } catch (JsonSyntaxException | JSONException e) {
                     e.printStackTrace();
                     listener.onItemReceived(null);
+                }
+            }
+        });
+    }
+    //**********************************************************************************************
+    public static void deleteItem(String publicKey, String itemID,final OnActionListener listener){
+
+        //get timestamp
+        long timestamp = System.currentTimeMillis();
+
+        //get json object
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            //add parameters
+            jsonObject.accumulate("timestamp"   ,timestamp);
+            jsonObject.accumulate("publicKey"   ,publicKey);
+            jsonObject.accumulate("itemID"      ,itemID);;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //send http request
+        sendPostRequest(TEAM_DELETE_ITEM, jsonObject.toString(), new OnHttpPostListener() {
+            @Override
+            public void onHttpPostResponse(String response) {
+
+                Log.d(TAG + TEAM_DELETE_ITEM, response);
+
+                try {
+
+                    //cast response
+                    JSONObject jsonObject = new JSONObject(response);
+                    String responseStatus = jsonObject.getString("responseStatus");
+
+                    if (responseStatus.equals("OK")) {
+
+                        listener.onSuccess();
+
+                    } else {
+
+                        listener.onFailed(responseStatus);
+                    }
+
+                } catch (JsonSyntaxException | JSONException e) {
+                    e.printStackTrace();
+                    listener.onFailed("");
                 }
             }
         });
@@ -903,6 +952,12 @@ public class WebServices {
     public interface OnItemListener {
 
         void onItemReceived(Requirement requirement);
+    }
+    //**********************************************************************************************
+    public interface OnActionListener {
+
+        void onSuccess();
+        void onFailed(String failReason);
     }
 
 

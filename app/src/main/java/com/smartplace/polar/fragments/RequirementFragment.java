@@ -4,6 +4,7 @@ package com.smartplace.polar.fragments;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -18,7 +19,9 @@ import android.widget.TextView;
 
 import com.smartplace.polar.R;
 import com.smartplace.polar.helpers.Constants;
+import com.smartplace.polar.helpers.MemoryServices;
 import com.smartplace.polar.helpers.Utilities;
+import com.smartplace.polar.helpers.WebServices;
 import com.smartplace.polar.listeners.OnRequirementListener;
 import com.smartplace.polar.models.Comment;
 import com.smartplace.polar.models.Link;
@@ -94,7 +97,6 @@ public class RequirementFragment extends Fragment {
         mRequirement = new Requirement();
         mRequirement.setId("1");
         mRequirement.setType(1);
-        mRequirement.setOrder(1);
         mRequirement.setValue("");
         mRequirement.setInLinks(new ArrayList<Link>());
         mRequirement.setOutLinks(new ArrayList<Link>());
@@ -161,10 +163,24 @@ public class RequirementFragment extends Fragment {
         });
         ivbBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
-                mListener.onRequirementDeleted(mRequirement.getId());
-                setRequirement(null);
+                WebServices.deleteItem(MemoryServices.getPublicKey(getActivity()),
+                        mRequirement.getId(), new WebServices.OnActionListener() {
+                    @Override
+                    public void onSuccess() {
+
+                        mListener.onRequirementDeleted(mRequirement.getId());
+                        setRequirement(null);
+                    }
+
+                    @Override
+                    public void onFailed(String failReason) {
+
+                        Snackbar.make(view,failReason,Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
@@ -192,7 +208,6 @@ public class RequirementFragment extends Fragment {
 
         mRequirement.setId(requirement.getId());
         mRequirement.setValue(requirement.getValue());
-        mRequirement.setOrder(requirement.getOrder());
         mRequirement.setType(requirement.getType());
 
         if(requirement.getComments()!=null) {

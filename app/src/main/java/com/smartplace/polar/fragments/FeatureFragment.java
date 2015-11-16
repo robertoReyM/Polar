@@ -132,8 +132,16 @@ public class FeatureFragment extends Fragment {
                     String value = mEtRequirement.getText().toString();
                     String type = String.valueOf(mType);
 
+                    String order = "";
+
+                    if(mFeature.getItems().size()> 0){
+
+                        Requirement reference = mFeature.getItems().get(mRequirementsAdapter.getSelectedItem());
+                        order = reference.getId();
+                    }
+
                     WebServices.addItem(MemoryServices.getPublicKey(getActivity()), mFeature.getId(),
-                            "", type, value, new WebServices.OnItemListener() {
+                            order, type, value, new WebServices.OnItemListener() {
                         @Override
                         public void onItemReceived(Requirement requirement) {
 
@@ -143,7 +151,6 @@ public class FeatureFragment extends Fragment {
                                 mFeature.getItems().add(requirement);
                             }
                             mEtRequirement.setText("");
-                            orderRequirements(mFeature.getItems());
                             mRequirementsAdapter.notifyDataSetChanged();
 
                             if(mRequirementsAdapter.getSelectedItem() == mRequirementsAdapter.getCount()-2) {
@@ -329,7 +336,6 @@ public class FeatureFragment extends Fragment {
                                     String comment = ((EditText) dialog.getView().findViewById(R.id.et_name)).getText().toString();
                                     Requirement requirement = new Requirement();
                                     requirement.setId("1");
-                                    requirement.setOrder(1);
                                     requirement.setType(Constants.TYPE_IMAGE);
                                     requirement.setImage(mBitmap);
                                     requirement.setValue(comment);
@@ -388,7 +394,6 @@ public class FeatureFragment extends Fragment {
                                 String comment = ((EditText) dialog.getView().findViewById(R.id.et_name)).getText().toString();
                                 Requirement requirement = new Requirement();
                                 requirement.setId("1");
-                                requirement.setOrder(1);
                                 requirement.setType(Constants.TYPE_IMAGE);
                                 requirement.setImage(mBitmap);
                                 requirement.setValue(comment);
@@ -420,16 +425,4 @@ public class FeatureFragment extends Fragment {
         return cursor.getString(column_index);
     }
 
-    public void orderRequirements(ArrayList requirements){
-
-        Collections.sort(requirements, new Comparator() {
-
-            public int compare(Object o1, Object o2) {
-                Requirement r1 = (Requirement) o1;
-                Requirement r2 = (Requirement) o2;
-                return r1.getOrder()-r2.getOrder();
-            }
-
-        });
-    }
 }
