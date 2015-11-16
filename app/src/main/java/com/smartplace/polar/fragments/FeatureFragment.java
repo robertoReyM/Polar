@@ -174,6 +174,7 @@ public class FeatureFragment extends Fragment {
                 //Inflating the Popup using xml file
                 popup.getMenuInflater().inflate(R.menu.menu_types, popup.getMenu());
 
+
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
